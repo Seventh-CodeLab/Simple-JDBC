@@ -246,3 +246,5 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/java,linux,macos,windows,intellij,database,intellij+iml.idea 
 .idea/ 
+SimpleJDBC.properties 
+target/ 
