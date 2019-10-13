@@ -248,3 +248,4 @@ $RECYCLE.BIN/
 .idea/ 
 SimpleJDBC.properties 
 target/ 
+logevents.properties 

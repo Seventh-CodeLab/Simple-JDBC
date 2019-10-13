@@ -1,5 +1,6 @@
 package no.codelab.dao;
 
+import org.flywaydb.core.Flyway;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +17,9 @@ public class FavoriteDaoTest {
   @Test
   void shouldFindStoredFavorites() throws SQLException {
     JdbcDataSource dataSource = new JdbcDataSource();
-    dataSource.setUrl("jdbc:h2:mem:testBase");
+    dataSource.setUrl("jdbc:h2:mem:testBase;DB_CLOSE_DELAY=-1");
 
-    dataSource.getConnection().createStatement().executeUpdate(
-            "CREATE TABLE favorites (id SERIAL PRIMARY KEY, name varchar(1000) not null)"
-    );
+    Flyway.configure().dataSource(dataSource).load().migrate();
 
     Favorite favorite = new Favorite();
     favorite.setName("Test");

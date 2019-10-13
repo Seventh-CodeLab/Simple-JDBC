@@ -1,5 +1,6 @@
 package no.codelab.dao;
 
+import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import java.io.BufferedReader;
@@ -23,6 +24,8 @@ public class ColorBase {
     dataSource.setURL("jdbc:postgresql://localhost:5432/colors");
     dataSource.setUser("colors");
     dataSource.setPassword(properties.getProperty("datasource.password"));
+
+    Flyway.configure().dataSource(dataSource).load().migrate();
   }
 
   public static void main(String[] args) throws SQLException, IOException {
