@@ -8,18 +8,18 @@ import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ProductDaoTest {
+public class ColorDaoTest {
   @Test
   void shouldRetrieveInsertedProduct() throws SQLException {
     JdbcDataSource dataSource = new JdbcDataSource();
     dataSource.setUrl("jdbc:h2:mem:testBase"); //Type of Connection : DatabaseType : StorageLocation : DB Name
     dataSource.getConnection().createStatement().executeUpdate(
-            "CREATE TABLE colors (name varchar(50))"
+            "CREATE TABLE colors (id SERIAL PRIMARY KEY, name varchar(50) not null )"
     );
-    ProductDao dao = new ProductDao(dataSource);
+    ColorDao dao = new ColorDao(dataSource);
     String productName = pickOne(new String[]{"White","Black","Gray","Light Gray", "Dark Gray"});
-    dao.insertProduct(productName);
-    assertThat(dao.listAll())
+    dao.insert(productName, "INSERT INTO colors (name) values (?)");
+    assertThat(dao.listAll("SELECT * FROM colors"))
             .contains(productName);
   }
 
