@@ -15,20 +15,19 @@ public abstract class AbstractDao<T> {
     this.dataSource = dataSource;
   }
 
-  public long insert(T color, String sql) throws SQLException {
+  public void insert(T object, String sql) throws SQLException {
     try (Connection connection = dataSource.getConnection()){
       try(PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
-        insertObject(color, statement);
+        insertObject(object, statement);
         statement.executeUpdate();
 
         ResultSet generatedKeys = statement.getGeneratedKeys();
         generatedKeys.next();
-        return generatedKeys.getLong(1);
       }
     }
   }
 
-  protected abstract void insertObject(T colorName, PreparedStatement statement) throws SQLException;
+  protected abstract void insertObject(T objectName, PreparedStatement statement) throws SQLException;
 
   public List<T> listAll(String sql) throws SQLException {
     try (Connection connection = dataSource.getConnection()) {
@@ -48,24 +47,3 @@ public abstract class AbstractDao<T> {
 
   protected abstract T readObject(ResultSet resultSet) throws SQLException;
 }
-
-/*
-  public static void main(String[] args) throws SQLException, IOException {
-    PGSimpleDataSource dataSource = new PGSimpleDataSource();
-
-    Properties properties = new Properties();
-    properties.load(new FileReader("SimpleJDBC.properties"));
-
-    dataSource.setUrl("jdbc:postgresql://localhost:5432/colors");
-    dataSource.setUser("colors");
-    dataSource.setPassword(properties.getProperty("datasource.password"));
-    ColorDao colorDao = new ColorDao(dataSource);
-
-    System.out.println(" - Type a product to insert: - ");
-    String terminalInput = new Scanner(System.in).nextLine();
-
-    colorDao.insert(terminalInput, "INSERT INTO colors (name) values (?)");
-
-    System.out.println(colorDao.listAll("SELECT * FROM colors"));
-  }
-*/

@@ -17,10 +17,10 @@ public class ColorDaoTest {
             "CREATE TABLE colors (id SERIAL PRIMARY KEY, name varchar(50) not null )"
     );
     ColorDao dao = new ColorDao(dataSource);
-    String productName = pickOne(new String[]{"White","Black","Gray","Light Gray", "Dark Gray"});
-    dao.insert(productName, "INSERT INTO colors (name) values (?)");
+    String colorName = pickOne(new String[]{"White","Black","Gray","Light Gray", "Dark Gray"});
+    dao.insert(colorName, "INSERT INTO colors (name) values (?)");
     assertThat(dao.listAll("SELECT * FROM colors"))
-            .contains(productName);
+            .contains(colorName);
   }
 
   private String pickOne(String[] products) {
