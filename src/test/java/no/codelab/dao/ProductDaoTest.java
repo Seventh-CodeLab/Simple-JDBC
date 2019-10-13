@@ -14,7 +14,7 @@ public class ProductDaoTest {
     JdbcDataSource dataSource = new JdbcDataSource();
     dataSource.setUrl("jdbc:h2:mem:testBase"); //Type of Connection : DatabaseType : StorageLocation : DB Name
     dataSource.getConnection().createStatement().executeUpdate(
-            "CREATE TABLE products (name varchar(100))"
+            "CREATE TABLE colors (name varchar(50))"
     );
     ProductDao dao = new ProductDao(dataSource);
     String productName = pickOne(new String[]{"White","Black","Gray","Light Gray", "Dark Gray"});
